@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+input {
+    height: 50px;
+    width: 200px;
+    /* display: flex; */
+    padding: 1rem;
+    margin: 1rem;
+}
+
+button {
+    height: 50px;
+    width: 200px;
+    display: flex;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    align-items: center;
+    font-size: 16px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body {
+    display: flex;
+    background-color: gold;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* .fn {
+    position: relative;
+    flex: content;
+} */
+
+.inline {
+    display: inline-flex;
+}

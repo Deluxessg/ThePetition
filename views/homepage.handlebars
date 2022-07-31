@@ -1,0 +1,25 @@
+{{#if error}}
+    <p>{{error}}</p>
+
+{{/if}}
+<h1>Sign our petition to make the wearing of Crocs in public places a criminal
+    act in every jurisdiction</h1>
+<form action="/" method="POST">
+    <div class="inline">
+        <input
+            name="first_name"
+            class="fn"
+            type="text"
+            required
+            placeholder="First Name"
+        />
+        <input name="last_name" class="ln" placeholder="Last Name" />
+        <input
+            type="hidden"
+            name="signature"
+            value="data:image/png;base64,hello"
+        />
+    </div>
+    <button>Submit</button>
+
+</form>
