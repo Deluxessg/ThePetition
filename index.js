@@ -34,6 +34,10 @@ app.post("/", (request, response) => {
         });
 });
 
+app.get("/thankyou", (request, response) => {
+    response.render("thankyou");
+});
+
 app.get("/signatures", (request, response) => {
     getSignatures().then((signatures) => {
         response.render("signatures", {
