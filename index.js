@@ -163,31 +163,4 @@ app.get("/signatures", (request, response) => {
     });
 });
 
-// app.post("/", (request, response) => {
-//     if (
-//         !request.body.first_name ||
-//         !request.body.last_name ||
-//         !request.body.signature
-//     ) {
-//         response.render("homepage", {
-//             error: `Please fill all the fields`,
-//         });
-//         return;
-//     }
-//     createSignature(request.body)
-//         .then(response.redirect("/thankyou"))
-//         .catch((error) => {
-//             console.log("error", error);
-//             response.redirect("/");
-//         });
-// });
-
-// app.get("/signatures", (request, response) => {
-//     getSignatures().then((signatures) => {
-//         response.render("signatures", {
-//             signatures,
-//         });
-//     });
-// });
-
 app.listen(8080, () => console.log("server is onon local:8080"));
