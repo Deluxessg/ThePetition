@@ -42,3 +42,7 @@ body {
     width: 100%;
     height: 220px;
 }
+
+#signature {
+    border: dashed 2px black;
+}

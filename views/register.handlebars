@@ -1,0 +1,15 @@
+<form action="/register" method="POST">
+    <input name="first_name" placeholder="First Name" />
+    <input name="last_name" required placeholder="Last Name" />
+    <input name="email" type="email" required placeholder="Email Address" />
+    <input name="password" type="password" required placeholder="Password" />
+
+    <button>Register</button>
+
+</form>
+
+<p>If you are already a member, please <a href="/login">log in</a>.</p>
+
+{{#if error}}
+    <div>{{error}}</div>
+{{/if}}
