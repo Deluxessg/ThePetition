@@ -81,7 +81,7 @@ app.post("/login", (request, response) => {
                 });
                 return;
             }
-            request.session.use_id = foundUser.id;
+            request.session.user_id = foundUser.id;
             response.redirect("/");
         })
         .catch((error) => {
@@ -102,13 +102,16 @@ app.post("/", (request, response) => {
         response.redirect("/login");
         return;
     }
-    if (request.body.signature) {
+    if (!request.body.signature) {
         response.render("homepage", {
             error: "Please provide a signature!",
         });
         return;
     }
-    createSignature(request.body.signature, request.session.user_id)
+    createSignature({
+        user_id: request.session.user_id,
+        signature: request.body.signature,
+    })
         .then((newSignature) => {
             request.session.signatureId = newSignature.id;
             response.redirect("/thankyou");

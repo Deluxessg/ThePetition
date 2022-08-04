@@ -12,7 +12,7 @@ const db = spicedPg(
 const hash = (password) =>
     bcrypt.genSalt().then((salt) => bcrypt.hash(password, salt));
 
-function createSignature({ first_name, last_name, signature }) {
+function createSignature({ signature, user_id }) {
     return db
         .query(
             ` 
