@@ -26,9 +26,17 @@ function createSignature({ signature, user_id }) {
 }
 
 function getSignatures() {
-    return db.query("SELECT * FROM signatures").then((result) => result.rows);
+    return db
+        .query(
+            `
+            SELECT * FROM users
+            JOIN signatures ON signatures.user_id = users.id
+            FULL JOIN user_profiles ON user_profiles.user_id = users.id
+            WHERE signatures.signature IS NOT NULL
+            `
+        )
+        .then((result) => result.rows);
 }
-
 function getSignatureById(id) {
     return db
         .query("SELECT * FROM signatures WHERE id =$1", [id])
@@ -72,6 +80,34 @@ function login({ email, password }) {
     });
 }
 
+function createUserProfile({ user_id, age, city, homepage }) {
+    return db
+        .query(
+            `
+            INSERT INTO user_profiles (user_id, age, city, homepage)
+            VALUES ($1, $2, $3, $4)
+            RETURNING *
+        `,
+            [user_id, age, city, homepage]
+        )
+        .then((result) => result.rows[0]);
+}
+
+function getSignaturesByCity(city) {
+    return db
+        .query(
+            `
+            SELECT * FROM users
+            JOIN signatures ON signatures.user_id = users.id
+            FULL JOIN user_profiles ON user_profiles.user_id = users.id
+            WHERE signatures.signature IS NOT NULL
+            AND user_profiles.city ILIKE $1
+        `,
+            [city]
+        )
+        .then((result) => result.rows);
+}
+
 module.exports = {
     createSignature,
     getSignatures,
@@ -79,4 +115,6 @@ module.exports = {
     createUser,
     getUserByEmail,
     login,
+    createUserProfile,
+    getSignaturesByCity,
 };

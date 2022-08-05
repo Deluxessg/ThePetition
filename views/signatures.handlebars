@@ -1,9 +1,22 @@
-<div class="signlist">
+{{!-- <div class="signlist">
 
     {{#each signatures}}
         <p>{{id}} {{first_name}} {{last_name}} </p>
     {{/each}}
 
-</div>
+</div> --}}
 
 {{!-- {{signature}} it has to go on line 4! dont forget --}}
+
+<div class="signature-list">
+    <p>We signed: </p>
+    {{#each signatures}}
+        <div>
+            <a href="http://{{homepage}}">{{first_name}} {{last_name}}</a>
+            {{age}}
+            <a href="/signatures/{{city}}">{{city}}</a>
+
+        </div>
+    {{/each}}
+
+</div>

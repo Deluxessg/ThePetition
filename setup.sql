@@ -1,10 +1,9 @@
--- drop existing table
-DROP TABLE IF EXISTS signatures;
 
--- drop existing users table
+DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS user_profiles;
 DROP TABLE IF EXISTS users;
 
--- create a new users table:
+-- then we create users table:
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
@@ -14,10 +13,19 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- user profiles table:
+CREATE TABLE user_profiles (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE REFERENCES users (id),
+    age INT,
+    city VARCHAR(255) NOT NULL,
+    homepage VARCHAR(255) NOT NULL
+);
 
--- then we create a new signatures table:
+
+-- then we create signatures table:
 CREATE TABLE signatures (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL UNIQUE REFERENCES users (id),
+    user_id INT NOT NULL UNIQUE REFERENCES users (id),
     signature TEXT NOT NULL CHECK (signature != '')
 );

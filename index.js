@@ -14,11 +14,14 @@ const {
     createUser,
     getUserByEmail,
     login,
+    createUserProfile,
+    getSignaturesByCity,
 } = require("./db");
 const { response } = require("express");
 const { createSecureServer } = require("http2");
 const { request } = require("http");
 const { SESSION_SECRET } = require("./secrets.json");
+const { isGeneratorFunction } = require("util/types");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
@@ -49,7 +52,7 @@ app.post("/register", (request, response) => {
     createUser(request.body)
         .then((newUser) => {
             request.session.user_id = newUser.id;
-            response.redirect("/");
+            response.redirect("/profile");
         })
         .catch((error) => {
             console.log("error", error);
@@ -67,6 +70,10 @@ app.post("/register", (request, response) => {
 });
 
 app.get("/register", (request, response) => {
+    if (request.session.user_id) {
+        response.redirect("/");
+        return;
+    }
     response.render("register");
 });
 
@@ -77,7 +84,7 @@ app.post("/login", (request, response) => {
         .then((foundUser) => {
             if (!foundUser) {
                 response.render("login", {
-                    error: "email and/or password not matching",
+                    error: "email and password not matching",
                 });
                 return;
             }
@@ -122,6 +129,20 @@ app.post("/", (request, response) => {
         });
 });
 
+app.get("/signatures", (request, response) => {
+    if (!request.session.user_id) {
+        response.redirect("/login");
+        return;
+    }
+    if (!request.session.signatureId) {
+        response.redirect("/");
+        return;
+    }
+    getSignatures().then((signatures) => {
+        response.render("signatures", { signatures });
+    });
+});
+
 app.get("/", (request, response) => {
     if (!request.session.user_id) {
         response.redirect("/register");
@@ -132,6 +153,23 @@ app.get("/", (request, response) => {
         return;
     }
     response.render("homepage");
+});
+
+app.get("/signatures/:city", (request, response) => {
+    if (!request.session.user_id) {
+        response.redirect("/login");
+        return;
+    }
+    if (!request.session.signatureId) {
+        response.redirect("/");
+        return;
+    }
+    getSignaturesByCity(request.params.city).then((signatures) => {
+        response.render.apply("signaturesByCity", {
+            city: request.params.city,
+            signatures,
+        });
+    });
 });
 
 // #4 thankyou
@@ -150,20 +188,27 @@ app.get("/thankyou", (request, response) => {
     });
 });
 
-// #5 signature
+// #5 profile
 
-app.get("/signatures", (request, response) => {
+app.post("/profile", (request, response) => {
     if (!request.session.user_id) {
         response.redirect("/login");
         return;
     }
-    if (!request.session.signatureId) {
-        response.redirect("/");
+    createUserProfile({ user_id: request.session.user_id, ...request.body })
+        .then(response.redirect("/"))
+        .catch((error) => {
+            console.log("profile error", error);
+            response.render("profile", { error: "Fill all the fields" });
+        });
+});
+
+app.get("/profile", (request, response) => {
+    if (!request.session.user_id) {
+        response.redirect("/login");
         return;
     }
-    getSignatures().then((signatures) => {
-        response.render("signatures", { signatures });
-    });
+    response.render("profile");
 });
 
 app.listen(8080, () => console.log("server is onon local:8080"));
