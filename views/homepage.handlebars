@@ -1,14 +1,34 @@
-<form action="/" method="POST">
+<div>
+    <h1>Change the direction of the flow of rivers</h1>
+
+</div>
+
+
+<div>
+    <form action="/" method="POST">
     <input
-        id="sign_data"
+        id="sigData"
         type="hidden"
         name="signature"
         value="data:image/png;base64,hello"
     />
-    <canvas id="signature" width="600" height="200"></canvas>
+    <canvas id="signature" width="400" height="100"></canvas>
+</div>
+<div>
     <button>Sign petition</button>
-
+     <button class="edit"><a class="textdeco" href="/profile/edit">Edit your
+                profile</a></button>
+</div>
 </form>
+<p>We are tired of the same flow!!!<br> It has been the same for millions of years and now with YOUR signature we have a chance to make a difference.<br> We DEMAND a change!</p>
+<div>
+    <h3><strong>ENOUGH</strong> waterfalls, we want finally waterflys!!!</h3>
+</div>
+<div class="homepics">
+<img class="waterfall" src="/media/waterfall.jpg" width="200" height="450" alt="wffal">
+<img class="waterfall" src="/media/waterfly.jpg" width="200" height="450" alt="">
+</div>
+
 {{#if error}}
     <div>{{error}}</div>
 {{/if}}

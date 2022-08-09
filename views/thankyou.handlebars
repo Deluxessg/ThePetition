@@ -1,6 +1,30 @@
-<div>
-    <p>{{first_name}}We are greatful for your signature</p>
+<div class="thanks">
 
-    <a href="/signatures">Other people's signature</a>
+    <img
+        class="sign-border"
+        src="{{signature.signature}}"
+        alt="current signature"
+    />
+
+    <div class="getin">
+
+        <div>
+
+            <button class="edit"><a class="textdeco" href="/signatures">See all
+                    signers</a></button>
+            <button class="edit"><a class="textdeco" href="/profile/edit">Edit
+                    your profile</a></button>
+        </div>
+        <div>
+
+            <form action="/logout" method="POST">
+                <button class="remove-data">Logout</button>
+            </form>
+            <form action="/unsign" method="POST" id="unsign">
+                <button class="remove-data">Delete Signature</button>
+            </form>
+        </div>
+
+    </div>
 
 </div>

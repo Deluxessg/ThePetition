@@ -1,9 +1,21 @@
+<div class="sig-buttons">
+    <form action="/logout" method="POST">
+        <button class="remove-data">Logout</button>
+    </form>
+    <button class="edit"><a class="textdeco" href="/profile/edit">Edit your
+            profile</a></button>
+</div>
+
 <div class="signature-list">
-    <p>In {{city}} we signed: </p>
+    <h1>Signatures from: {{city}}</h1>
     {{#each signatures}}
         <div>
-            <a href="http://{{homepage}}">{{first_name}} {{last_name}}</a>
-            {{age}}
+            <p class="sig-list-city">
+                {{first_name}}
+                {{last_name}}
+
+                ({{age}})</p>
+
         </div>
     {{/each}}
 

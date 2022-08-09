@@ -34,7 +34,7 @@ function draw(event) {
 
         ctx.lineWidth = 2;
         ctx.lineCap = "round";
-        ctx.strokeStyle = "#c0392b";
+        ctx.strokeStyle = "	#00FFFF";
 
         ctx.moveTo(pos.x, pos.y);
 
@@ -46,4 +46,10 @@ function draw(event) {
 
         hiddenField.value = canvas.toDataURL();
     }
+}
+
+function sigImg() {
+    let dataURL = canvas.toDataURL();
+    let sigData = document.getElementById("sigData");
+    sigData.value = dataURL;
 }

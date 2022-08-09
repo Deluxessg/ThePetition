@@ -1,14 +1,36 @@
+<div>
 <form action="/register" method="POST">
-    <input name="first_name" placeholder="First Name" />
-    <input name="last_name" required placeholder="Last Name" />
-    <input name="email" type="email" required placeholder="Email Address" />
-    <input name="password" type="password" required placeholder="Password" />
+    <input class="rfname" name="first_name" placeholder="First Name" />
+    <input class="rlname" name="last_name" required placeholder="Last Name" />
+    <input
+        class="remail"
+        name="email"
+        type="email"
+        required
+        placeholder="Email Address"
+    />
+    <input
+        class="rpassword"
+        name="password"
+        type="password"
+        required
+        placeholder="Password"
+    />
+</div>
+<div>
+    <button class="register-button">Register</button>
 
-    <button>Register</button>
+</div>
 
 </form>
 
-<p>If you are already a member, please <a href="/login">log in</a>.</p>
+<p class="register-p">If you are already a member, please <a href="/login">log in</a>.</p>
+
+<div class="textbg">
+<h1 class="regtext">CHANGE THE FLOW</h1>
+
+</div>
+
 
 {{#if error}}
     <div>{{error}}</div>

@@ -4,10 +4,45 @@
 
 input {
     height: 50px;
-    width: 200px;
-    /* display: flex; */
+    width: 400px;
+    display: flex;
     padding: 1rem;
-    margin: 1rem;
+    margin: 2rem;
+    /* border-radius: 35px; */
+    outline: 0;
+    border-width: 0 0 3px;
+    border-color: rgb(0, 225, 255);
+    background-color: transparent;
+    font-size: 24px;
+    color: aqua;
+}
+
+input:focus {
+    border-color: rgb(0, 247, 33);
+}
+
+::placeholder {
+    color: aqua;
+    opacity: 0.4;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    border-width: 0 0 3px;
+    border-color: rgb(38, 182, 248);
+    background-color: transparent;
+    font-size: 24px;
+    color: aqua;
+
+    -webkit-text-fill-color: aqua;
+    transition: 5000s ease-in-out 0s;
 }
 
 button {
@@ -19,23 +54,33 @@ button {
     border-radius: 0.75rem;
     text-align: center;
     align-items: center;
-    font-size: 16px;
     flex-direction: column;
     justify-content: center;
+    border-color: #3498db;
+    color: rgb(0, 32, 212);
+    box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    transition: all 150ms ease-in-out;
+    font-size: 24px;
+    text-decoration: double;
+    font-style: oblique;
 }
 
 body {
     display: flex;
-    background-color: gold;
+    background-image: linear-gradient(
+        to bottom right,
+        #1e2935,
+        #002594,
+        #2546ff,
+        rgb(38, 182, 248)
+    );
     text-align: center;
     align-items: center;
     flex-direction: column;
+    /* mix-blend-mode: multiply; */
+    color: aqua;
+    height: 100%;
 }
-
-/* .fn {
-    position: relative;
-    flex: content;
-} */
 
 .inline {
     display: inline-flex;
@@ -45,4 +90,108 @@ body {
 
 #signature {
     border: dashed 2px black;
+}
+
+.regtext {
+    margin: 5rem;
+    font-size: 5rem;
+    color: aqua;
+    mix-blend-mode: normal;
+}
+
+button:hover {
+    box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+}
+
+.register-p {
+    color: white;
+}
+
+a {
+    color: rgb(1, 218, 218);
+}
+
+.profile-text {
+    margin: 5rem;
+    font-size: 5rem;
+    color: rgb(0, 32, 212);
+    mix-blend-mode: multiply;
+}
+
+h3 {
+    text-decoration: underline;
+}
+.waterfall {
+    margin: 3rem;
+}
+
+.edit {
+    font-size: 1rem;
+}
+
+.remove-data {
+    font-size: 1rem;
+}
+
+.textdeco {
+    text-decoration: none;
+    color: rgb(0, 32, 212);
+}
+
+.sign-border {
+    border: 1px aqua dotted;
+    background-color: #000f61;
+}
+
+.getin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-left: 5rem; */
+}
+
+.update {
+    margin-left: 8rem;
+}
+
+.sig-list {
+    display: flex;
+    margin: 3rem;
+    border-radius: 20px;
+    background-color: #000f61;
+    width: 500px;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.list {
+    padding: 2rem;
+    justify-content: space-between;
+}
+.sig-buttons {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+}
+
+.sig-list-city {
+    display: flex;
+    margin: 2rem;
+    border-radius: 20px;
+    background-color: #000f61;
+    width: 500px;
+    padding: 0.5rem;
+    justify-content: center;
+    font-size: 24px;
+}
+
+table {
+    display: flex;
+    align-items: flex-end;
+    background-color: #000f61;
+    width: 80%;
+    font-size: 24px;
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 30px;
 }

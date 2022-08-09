@@ -16,12 +16,15 @@ const {
     login,
     createUserProfile,
     getSignaturesByCity,
+    getUserInfo,
+    updateUser,
+    upsertProfile,
+    deleteSignature,
+    getSignatureByUserId,
 } = require("./db");
 const { response } = require("express");
-const { createSecureServer } = require("http2");
-const { request } = require("http");
 const { SESSION_SECRET } = require("./secrets.json");
-const { isGeneratorFunction } = require("util/types");
+const { request } = require("http");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
@@ -88,8 +91,12 @@ app.post("/login", (request, response) => {
                 });
                 return;
             }
-            request.session.user_id = foundUser.id;
-            response.redirect("/");
+            getSignatureByUserId(foundUser.id).then((signature) => {
+                request.session.user_id = foundUser.id;
+                request.session.signatureId = signature.id;
+                console.log("SIGNATURE", signature);
+                response.redirect("/thankyou");
+            });
         })
         .catch((error) => {
             response.status(500).render("register", {
@@ -109,10 +116,9 @@ app.post("/", (request, response) => {
         response.redirect("/login");
         return;
     }
-    if (!request.body.signature) {
-        response.render("homepage", {
-            error: "Please provide a signature!",
-        });
+    if (request.session.signatureId) {
+        response.redirect("/thankyou");
+
         return;
     }
     createSignature({
@@ -120,7 +126,9 @@ app.post("/", (request, response) => {
         signature: request.body.signature,
     })
         .then((newSignature) => {
+            console.log("NEWSIGN", newSignature);
             request.session.signatureId = newSignature.id;
+            console.log("signID in homePOST", request.session.signatureId);
             response.redirect("/thankyou");
         })
         .catch((error) => {
@@ -148,6 +156,7 @@ app.get("/", (request, response) => {
         response.redirect("/register");
         return;
     }
+    console.log("signID", request.session.signatureId);
     if (request.session.signatureId) {
         response.redirect("/thankyou");
         return;
@@ -165,11 +174,17 @@ app.get("/signatures/:city", (request, response) => {
         return;
     }
     getSignaturesByCity(request.params.city).then((signatures) => {
-        response.render.apply("signaturesByCity", {
+        response.render("signaturesByCity", {
             city: request.params.city,
             signatures,
         });
     });
+});
+
+app.post("/unsign", (request, response) => {
+    request.session.signatureId = null;
+    deleteSignature(request.session.user_id);
+    response.redirect("/");
 });
 
 // #4 thankyou
@@ -183,7 +198,7 @@ app.get("/thankyou", (request, response) => {
         response.redirect("/");
         return;
     }
-    getSignatureById(request.session.user_id).then((signature) => {
+    getSignatureByUserId(request.session.user_id).then((signature) => {
         response.render("thankyou", { signature });
     });
 });
@@ -211,4 +226,47 @@ app.get("/profile", (request, response) => {
     response.render("profile");
 });
 
-app.listen(8080, () => console.log("server is onon local:8080"));
+// #6 edit
+
+app.post("/profile/edit", (request, response) => {
+    if (!request.session.user_id) {
+        response.redirect("/login");
+        return;
+    }
+    Promise.all([
+        updateUser({ user_id: request.session.user_id, ...request.body }),
+        upsertProfile({ user_id: request.session.user_id, ...request.body }),
+    ])
+        .then(() => {
+            response.redirect("/");
+        })
+        .catch((error) => {
+            console.log("edit error", error);
+            response
+                .status(500)
+                .render("editProfile", { error: "Something went wrong" });
+        });
+});
+
+app.get("/profile/edit", (request, response) => {
+    if (!request.session.user_id) {
+        response.redirect("/login");
+        return;
+    }
+
+    getUserInfo(request.session.user_id).then((info) => {
+        response.render("edit", { ...info });
+    });
+});
+
+// #7 logout
+
+app.post("/logout", (request, response) => {
+    request.session = null;
+    response.redirect("/login");
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`Listening on http://localhost:${port}`));
+
+// app.listen(8080, () => console.log("server is onon local:8080"));
