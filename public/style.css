@@ -67,7 +67,7 @@ button {
 
 body {
     display: flex;
-    background-image: linear-gradient(
+    background: linear-gradient(
         to bottom right,
         #1e2935,
         #002594,
@@ -156,7 +156,7 @@ h3 {
 
 .sig-list {
     display: flex;
-    margin: 3rem;
+    margin: 1rem;
     border-radius: 20px;
     background-color: #000f61;
     width: 500px;
@@ -176,22 +176,11 @@ h3 {
 
 .sig-list-city {
     display: flex;
-    margin: 2rem;
+    margin: 1rem;
     border-radius: 20px;
     background-color: #000f61;
     width: 500px;
     padding: 0.5rem;
     justify-content: center;
     font-size: 24px;
-}
-
-table {
-    display: flex;
-    align-items: flex-end;
-    background-color: #000f61;
-    width: 80%;
-    font-size: 24px;
-    padding: 2rem;
-    margin: 2rem;
-    border-radius: 30px;
 }
