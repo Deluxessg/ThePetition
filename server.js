@@ -22,15 +22,21 @@ const {
     deleteSignature,
     getSignatureByUserId,
 } = require("./db");
-const { response } = require("express");
-const { SESSION_SECRET } = require("./secrets.json");
-const { request } = require("http");
+// const { SESSION_SECRET } = require("./secrets.json");
+
+let sessionSecret;
+
+if (process.env.NODE_ENV == "production") {
+    sessionSecret = process.env.SESSION_SECRET;
+} else {
+    sessionSecret = require("./secrets").SESSION_SECRET;
+}
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
-        secret: SESSION_SECRET,
+        secret: sessionSecret,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
